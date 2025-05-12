@@ -1,0 +1,12 @@
+name: Hello Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request: {}
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Pipeline iniciado com sucesso"
