@@ -1,0 +1,41 @@
+name: CI
+
+# 1) Gatilhos
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    # só dispara se arquivos dentro de src/ mudarem
+    paths:
+      - 'src/**'
+
+jobs:
+  # 2) checkout
+  checkout:
+    runs-on: ubuntu-latest
+    outputs:
+      repo: ${{ steps.repo.outputs.repo }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+  # 3) build (depende de checkout)
+  build:
+    runs-on: ubuntu-latest
+    needs: checkout
+    steps:
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: '11'
+      - name: Build with Maven
+        run: mvn clean install --batch-mode
+
+  # 4) test (depende de build)
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Run tests
+        run: mvn test --batch-mode
