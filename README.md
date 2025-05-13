@@ -10,3 +10,6 @@ Maven.
 ```bash
 mvn clean package
 java -jar target/devcalc-api-1.0-SNAPSHOT.jar
+
+
+## Faznedo modificacao para testar as actions
