@@ -1,5 +1,6 @@
 package com.devcalc;
 
+// CI testando a modificacao em src
 public class CalculatorService {
 
     public int add(int a, int b) {
