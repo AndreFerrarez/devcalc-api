@@ -81,3 +81,17 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run tests
         run: mvn test --batch-mode
+
+  package:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Package JAR
+        run: mvn package --batch-mode
+
+  deploy:
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simulate Deploy
+        run: echo "Deploy realizado com sucesso"
