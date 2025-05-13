@@ -14,16 +14,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: temurin
-          java-version: '11'
-
-      - name: Build with Maven
-        run: mvn -f pom.xml clean install --batch-mode
+      - name: Show directory structure
+        run: |
+          echo "=== CURRENT DIR ==="
+          pwd
+          echo "=== RECURSIVE LS ==="
+          ls -R .
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - name: Setup Java
+#        uses: actions/setup-java@v3
+#        with:
+#          distribution: temurin
+#          java-version: '11'
+#
+#      - name: Build with Maven
+#        run: mvn -f pom.xml clean install --batch-mode
 #        run: mvn clean install --batch-mode
 
   test:
