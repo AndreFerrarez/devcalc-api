@@ -8,29 +8,28 @@ on:
       - 'src/**'
 
 jobs:
-  build:
+  checkout:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+  build:
+    needs: checkout
+    runs-on: ubuntu-latest
+    steps:
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: '11'
-
-      # roda o build no subdiretório devcalc-api
       - name: Build with Maven
-        working-directory: ./devcalc-api
         run: mvn clean install --batch-mode
 
   test:
-    runs-on: ubuntu-latest
     needs: build
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      # roda os testes no mesmo subdiretório
+      - name: Checkout code again
+        uses: actions/checkout@v4
       - name: Run tests
-        working-directory: ./devcalc-api
         run: mvn test --batch-mode
