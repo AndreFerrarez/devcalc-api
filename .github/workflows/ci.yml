@@ -1,55 +1,7 @@
-#
-#name: CI
-#
-#on:
-#  push:
-#    branches: [ main ]
-#    paths:
-#      - 'src/**'
-#  pull_request:
-#    paths:
-#      - 'src/**'
-#
-#jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#
-#      - name: Setup Java
-#        uses: actions/setup-java@v3
-#        with:
-#          distribution: temurin
-#          java-version: '11'
-#
-#      - name: Build with Maven
-#        run: mvn clean install --batch-mode
-#
-#  test:
-#    needs: build
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - name: Run tests
-#        run: mvn test --batch-mode
-#
-#  package:
-#    needs: test
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Package JAR
-#        run: mvn package --batch-mode
-#
-#  deploy:
-#    needs: package
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Simulate Deploy
-#        run: echo "Deploy realizado com sucesso"
-
 name: CI
 
 on:
+  workflow_dispatch: {}      # <— permite rodar manualmente
   push:
     branches:
       - main
