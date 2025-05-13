@@ -1,36 +1,25 @@
-name: CI
+build:
+  needs: checkout
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    paths:
-      - 'devcalc-api/src/**'     # opcional, se quiser disparar só em src do subdir
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: temurin
+        java-version: '11'
 
-jobs:
-  checkout:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    - name: Build with Maven
+      # aponta para o pom na subpasta devcalc-api
+      run: mvn -f devcalc-api/pom.xml clean install --batch-mode
 
-  build:
-    needs: checkout
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: temurin
-          java-version: '11'
-      - name: Build with Maven
-        working-directory: ./devcalc-api
-        run: mvn clean install --batch-mode
+test:
+  needs: build
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
 
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run tests
-        working-directory: ./devcalc-api
-        run: mvn test --batch-mode
+    - name: Run tests
+      # mesmo pom, mas rodar só os testes
+      run: mvn -f devcalc-api/pom.xml test --batch-mode
