@@ -1,38 +1,31 @@
 name: CI
 
-# 1) Aqui definimos os gatilhos do workflow
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    # só dispara em PRs que alterem algo dentro de devcalc-api/src
     paths:
-      - 'devcalc-api/src/**'
+      - 'src/**'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Java 11
+      - name: Setup Java
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: '11'
 
       - name: Build with Maven
-        # aponta para o POM que está dentro do sub-diretório
-        run: mvn -f devcalc-api/pom.xml clean install --batch-mode
+        run: mvn clean install --batch-mode
 
   test:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Run tests
-        run: mvn -f devcalc-api/pom.xml test --batch-mode
+        run: mvn test --batch-mode
