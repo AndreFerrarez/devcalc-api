@@ -1,6 +1,6 @@
 package com.devcalc;
 
-// Modificando e incluindo o package e deploy&..........
+// Modificando para adicionar o trigger manual
 public class CalculatorService {
 
     public int add(int a, int b) {
