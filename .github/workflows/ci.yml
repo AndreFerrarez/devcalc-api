@@ -40,8 +40,8 @@ jobs:
     needs: build
     uses: ./.github/workflows/lint-and-test.yml
     with:
-      run_lint: ${{ github.event.inputs.run_lint }}
-      run_tests: ${{ github.event.inputs.run_tests }}
+      run_lint: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_lint || 'true' }}
+      run_tests: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_tests || 'true' }}
 
   package:
     needs: lint_and_test
