@@ -34,3 +34,10 @@ java -jar target/devcalc-api-1.0-SNAPSHOT.jar
 ### Correção
 - Reverti o typo no comando para `mvn package --batch-mode`.
 - Pipeline voltou a rodar com sucesso: build → lint_and_test → package → deploy.
+
+
+## Observações sobre Modo de Execução
+
+- **Push automático**: sempre executa o pipeline completo (build, lint, test, package e deploy) ao detectar commits em `src/**`.  
+- **Execução manual** (`workflow_dispatch`): só roda quando alguém inicia manualmente, e permite parametrizar (`run_lint` e `run_tests`).  
+- Na aba **Actions**, os filtros de “Event” ajudam a separar esses dois tipos de run e monitorar facilmente quem e como acionou cada execução.
