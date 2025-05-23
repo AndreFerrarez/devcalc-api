@@ -1,3 +1,7 @@
+[![CI](https://github.com/AndreFerrarez/devcalc-api/actions/workflows/ci.yml/badge.svg)](https://github.com/AndreFerrarez/devcalc-api/actions/workflows/ci.yml)
+
+
+
 # DevCalc API
 
 **Objetivo**  
