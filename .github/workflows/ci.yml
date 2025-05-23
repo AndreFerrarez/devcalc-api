@@ -50,7 +50,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Package JAR
-        run: mvn package --batch-mode
+        run: mvn packag --batch-mode   # <-- comando com typo
 
   deploy:
     needs: package
