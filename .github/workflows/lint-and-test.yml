@@ -6,17 +6,15 @@ on:
       run_lint:
         description: 'Executar lint (Checkstyle)?'
         required: false
-        type: boolean
-        default: true
+        default: 'true'
       run_tests:
         description: 'Executar testes?'
         required: false
-        type: boolean
-        default: true
+        default: 'true'
 
 jobs:
   lint:
-    if: ${{ inputs.run_lint }}
+    if: ${{ inputs.run_lint == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -30,7 +28,7 @@ jobs:
           fail_level: 'warning'
 
   test:
-    if: ${{ inputs.run_tests }}
+    if: ${{ inputs.run_tests == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
