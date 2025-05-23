@@ -50,3 +50,18 @@ jobs:
       - uses: actions/checkout@v4
       - name: Simulate Deploy
         run: echo "Deploy realizado com sucesso"
+
+
+  lint:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Checkstyle
+        uses: checkstyle/action-checkstyle@v2
+        with:
+          config: 'google_checks.xml'
+          pattern: 'src/main/java/**/*.java'
+          fail_on_error: true
