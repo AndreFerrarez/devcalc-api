@@ -2,14 +2,24 @@ name: Lint and Test
 
 on:
   workflow_call:
+    inputs:
+      run_lint:
+        description: 'Executar lint (Checkstyle)?'
+        required: false
+        type: boolean
+        default: true
+      run_tests:
+        description: 'Executar testes?'
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   lint:
+    if: ${{ inputs.run_lint }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Run Checkstyle
         uses: dbelyaev/action-checkstyle@v1.19.1
         with:
@@ -19,10 +29,9 @@ jobs:
           fail_level: 'warning'
 
   test:
+    if: ${{ inputs.run_tests }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Run tests
         run: mvn test --batch-mode

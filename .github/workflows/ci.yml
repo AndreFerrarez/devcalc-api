@@ -1,7 +1,18 @@
 name: CI
 
 on:
-  workflow_dispatch: {}      # <— permite rodar manualmente
+  workflow_dispatch:
+    inputs:
+      run_lint:
+        description: 'Executar lint (Checkstyle)?'
+        required: false
+        type: boolean
+        default: true
+      run_tests:
+        description: 'Executar testes?'
+        required: false
+        type: boolean
+        default: true
   push:
     branches:
       - main
@@ -30,6 +41,9 @@ jobs:
   lint_and_test:
     needs: build
     uses: ./.github/workflows/lint-and-test.yml
+    with:
+      run_lint: ${{ github.event.inputs.run_lint }}
+      run_tests: ${{ github.event.inputs.run_tests }}
 
   package:
     needs: lint_and_test
