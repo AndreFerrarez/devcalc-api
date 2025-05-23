@@ -6,13 +6,11 @@ on:
       run_lint:
         description: 'Executar lint (Checkstyle)?'
         required: false
-        type: boolean
-        default: true
+        default: 'true'
       run_tests:
         description: 'Executar testes?'
         required: false
-        type: boolean
-        default: true
+        default: 'true'
   push:
     branches:
       - main
