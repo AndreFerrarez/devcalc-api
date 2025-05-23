@@ -1,6 +1,6 @@
 package com.devcalc;
 
-// Testando novas implementacoes na main para acionamento automatico das actions
+// Testando novas implementacoes
 public class CalculatorService {
 
     public int add(int a, int b) {

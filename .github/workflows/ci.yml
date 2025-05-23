@@ -27,19 +27,17 @@ jobs:
       - name: Build with Maven
         run: mvn clean install --batch-mode
 
-  test:
+  lint_and_test:
     needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run tests
-        run: mvn test --batch-mode
+    uses: ./.github/workflows/lint-and-test.yml
 
   package:
-    needs: test
+    needs: lint_and_test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Package JAR
         run: mvn package --batch-mode
 
@@ -47,22 +45,8 @@ jobs:
     needs: package
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Simulate Deploy
-        run: echo "Deploy realizado com sucesso"
-
-
-  lint:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run Checkstyle
-        uses: dbelyaev/action-checkstyle@v1.19.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          checkstyle_config: 'google_checks.xml'
-          fail_on_error: true
-          reporter: 'github-pr-check'
+      - name: Simulate Deploy
+        run: echo "Deploy realizado com sucesso"
