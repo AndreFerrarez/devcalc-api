@@ -1,6 +1,6 @@
 package com.devcalc;
 
-// Modificando para adicionar o trigger manual
+// Testando novas implementacoes na main para acionamento automatico das actions
 public class CalculatorService {
 
     public int add(int a, int b) {
