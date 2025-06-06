@@ -1,0 +1,44 @@
+name: Demo de Contextos e Variáveis
+
+on:
+  workflow_dispatch:
+
+# Variável de ambiente em nível de WORKFLOW
+env:
+  WORKFLOW_VAR: "Eu sou uma variável de WORKFLOW"
+  STAGE: "production" # Esta será sobrescrita pelo job abaixo
+
+jobs:
+  demonstrate-contexts:
+    runs-on: ubuntu-latest
+
+    # Variáveis de ambiente em nível de JOB
+    env:
+      JOB_VAR: "Eu sou uma variável de JOB"
+      STAGE: "test" # Sobrescreve a variável de mesmo nome do workflow
+
+    steps:
+      - name: 1. Acessando contextos 'github' e 'runner'
+        run: |
+          echo "Workflow acionado por: ${{ github.actor }}"
+          echo "Rodando em um runner do tipo: ${{ runner.os }}"
+
+      - name: 2. Exibindo variáveis de ambiente (Workflow e Job)
+        run: |
+          echo "Variável de Workflow: $WORKFLOW_VAR"
+          echo "Variável de Job: $JOB_VAR"
+          echo "A variável STAGE definida no Job sobrescreveu a do Workflow. Valor: $STAGE"
+
+      - name: 3. Exibindo variável de ambiente de Step
+        # Variável de ambiente em nível de STEP
+        env:
+          STEP_VAR: "Eu sou uma variável de STEP (só existo aqui)"
+        run: |
+          echo "Variável de Step: $STEP_VAR"
+          echo "A variável de Job ainda existe neste passo: $JOB_VAR"
+
+      - name: 4. Tentando acessar a variável de Step fora do seu escopo
+        run: |
+          echo "Tentando acessar a STEP_VAR fora do passo onde foi criada..."
+          echo "Valor de STEP_VAR aqui: '$STEP_VAR'"
+          echo "(O valor acima deve estar vazio, provando que o escopo é limitado ao passo anterior)"
