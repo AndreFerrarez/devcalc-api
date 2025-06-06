@@ -11,8 +11,7 @@ jobs:
   create-issue-on-failure:
     runs-on: ubuntu-latest
     steps:
-      - name:
-          1. Simula uma falha (ex: configuração ausente)
+      - name: 1. Simula uma falha (ex: configuração ausente)
         id: check
         run: |
           # Este passo simula uma verificação. Vamos forçar uma "falha".
