@@ -15,9 +15,12 @@ jobs:
 
       - name: Instalar 7-Zip sem precisar de admin
         run: |
-          $zipUrl = "https://www.7-zip.org/a/7z1900-x64.zip"
-          $dest = "$Env:RUNNER_TEMP\7zip.zip"
+          # URL apontando para a versão 23.01-portable do 7-Zip
+          $zipUrl  = "https://www.7-zip.org/a/7z2301-x64.zip"
+          $dest    = "$Env:RUNNER_TEMP\7zip.zip"
           Invoke-WebRequest -Uri $zipUrl -OutFile $dest
+
           Expand-Archive -Path $dest -DestinationPath "$Env:RUNNER_TEMP\7zip-portable"
+
           $exe = "$Env:RUNNER_TEMP\7zip-portable\7z.exe"
           & $exe --help

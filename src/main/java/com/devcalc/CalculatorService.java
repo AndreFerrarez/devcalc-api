@@ -1,6 +1,6 @@
 package com.devcalc;
 
-// Testando .....
+// Testando
 public class CalculatorService {
 
     public int add(int a, int b) {
