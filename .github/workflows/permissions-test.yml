@@ -1,0 +1,35 @@
+name: Teste de Permissões para Criar Issue
+
+on:
+  workflow_dispatch:
+
+# Concede permissão para o GITHUB_TOKEN criar e modificar issues
+permissions:
+  issues: write
+
+jobs:
+  create-issue-on-failure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Simula uma falha (ex: configuração ausente)
+        id: check
+        run: |
+          # Este passo simula uma verificação. Vamos forçar uma "falha".
+          echo "Verificando configurações... Falha detectada!"
+          echo "create_issue=true" >> $GITHUB_OUTPUT
+
+      - name: 2. Cria uma issue usando o GITHUB_TOKEN
+        # Este passo só executa se o passo anterior ('check') emitir a saída 'create_issue=true'
+        if: steps.check.outputs.create_issue == 'true'
+        uses: actions-ecosystem/action-create-issue@v1
+        with:
+          # Passa o token com a permissão que concedemos acima
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          title: "🚨 Falha no Pipeline: Verificação Automática"
+          body: |
+            O workflow **${{ github.workflow }}** detectou uma falha.
+            
+            - **Acionado por:** ${{ github.actor }}
+            - **Commit:** ${{ github.sha }}
+            
+            É necessário verificar os logs da execução.
