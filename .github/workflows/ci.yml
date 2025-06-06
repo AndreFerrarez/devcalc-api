@@ -1,4 +1,4 @@
-name: CI
+name: CI DevCalc
 
 on:
   workflow_dispatch:
@@ -14,11 +14,11 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'src/**'
+      - dev  # Adicionamos a branch dev
   pull_request:
-    paths:
-      - 'src/**'
+    branches:
+      - main
+      - dev  # Adicionamos a branch dev
 
 jobs:
   build:
@@ -27,11 +27,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Java 11
-        uses: actions/setup-java@v3
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
         with:
-          distribution: temurin
-          java-version: '11'
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: Build with Maven
         run: mvn clean install --batch-mode
@@ -43,20 +43,26 @@ jobs:
       run_lint: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_lint || 'true' }}
       run_tests: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_tests || 'true' }}
 
-  package:
-    needs: lint_and_test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Package JAR
-        run: mvn package --batch-mode
+  # --- NOVOS JOBS DE DEPLOY ---
 
-  deploy:
-    needs: package
+  deploy-dev:
+    name: Deploy para Desenvolvimento
+    needs: lint_and_test
+    # Só executa em push na branch 'dev'
+    if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
     runs-on: ubuntu-latest
+    environment: dev # Conecta este job ao ambiente 'dev'
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Simulate Deploy
-        run: echo "Deploy realizado com sucesso"
+      - name: Simulando deploy em DEV
+        run: echo "🚀 Deploy para o ambiente de DEV realizado com sucesso!"
+
+  deploy-prod:
+    name: Deploy para Produção
+    needs: lint_and_test
+    # Só executa em push na branch 'main'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: prod # Conecta ao ambiente 'prod' (com regra de aprovação)
+    steps:
+      - name: Simulando deploy em PROD
+        run: echo "🔐 Deploy para o ambiente de PRODUÇÃO realizado com sucesso!"
