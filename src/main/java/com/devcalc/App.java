@@ -20,6 +20,21 @@ public class App {
                 ctx.status(400).result(e.getMessage());
             }
         });
+        app.get("/sqrt", ctx -> {
+            try {
+                double x = Double.parseDouble(ctx.queryParam("x"));
+                double result = calc.sqrt(x);
+                ctx.result(String.valueOf(result));
+
+            } catch (NumberFormatException e) {
+                ctx.status(400).result("Erro: O parâmetro 'x' deve ser um número.");
+            } catch (IllegalArgumentException e) {
+                ctx.status(400).result(e.getMessage());
+            }
+        });
+
+
+
     }
 
     private static void handle(Context ctx, Operation op) {
