@@ -1,0 +1,19 @@
+name: Runner Auto-Hospedado
+
+on:
+  workflow_dispatch:
+
+jobs:
+  self_hosted_demo:
+    runs-on: self-hosted
+    steps:
+      - name: Mostrar informações do sistema
+        run: |
+          echo "Usuário do GitHub: ${{ github.actor }}"
+          systeminfo | findstr /B /C:"OS Name" /C:"OS Version"
+          java -version
+
+      - name: Instalar software adicional (7zip via Chocolatey)
+        run: |
+          choco install 7zip -y
+          7z --help
