@@ -1,27 +1,18 @@
-name: Runner Auto-Hospedado
+name: Teste de Runner Auto-Hospedado
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Permite iniciar manualmente pela aba Actions
 
 jobs:
-  self_hosted_demo:
-    runs-on: self-hosted
+  test-self-hosted-runner:
+    runs-on: self-hosted # Chave para usar seu runner local
+
     steps:
-      - name: Mostrar informações do sistema
-        run: |
-          echo "Usuário do GitHub: ${{ github.actor }}"
-          systeminfo | findstr /B /C:"OS Name" /C:"OS Version"
-          java -version
+      - name: 1. Mostra o nome do computador (hostname)
+        run: hostname
 
-      - name: Instalar 7-Zip sem precisar de admin
-        run: |
-          $zipUrl  = "https://www.7-zip.org/a/7z2409-x64.zip"
-          $dest    = "$Env:RUNNER_TEMP\7zip.zip"
-          Invoke-WebRequest -Uri $zipUrl -OutFile $dest
+      - name: 2. Mostra a versão do Java instalado na máquina
+        run: java -version
 
-          # Extrai o ZIP para uma pasta temporária
-          Expand-Archive -Path $dest -DestinationPath "$Env:RUNNER_TEMP\7zip-portable"
-
-          # Executa o binário extraído
-          $exe = "$Env:RUNNER_TEMP\7zip-portable\7z.exe"
-          & $exe --help
+      - name: 3. Instala o Git usando Chocolatey (gerenciador de pacotes do Windows)
+        run: choco install -y git
