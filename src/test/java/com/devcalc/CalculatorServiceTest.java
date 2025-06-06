@@ -36,4 +36,18 @@ class CalculatorServiceTest {
     void testDivideByZero() {
         assertThrows(ArithmeticException.class, () -> svc.divide(10, 0));
     }
+
+    @Test
+    void testSqrt() {
+        assertEquals(4.0, svc.sqrt(16));
+    }
+
+    @Test
+    void testSqrtNegative() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            svc.sqrt(-1);
+        });
+    }
+
+
 }

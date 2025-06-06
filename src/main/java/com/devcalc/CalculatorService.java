@@ -21,4 +21,11 @@ public class CalculatorService {
         }
         return a / b;
     }
+
+    public double sqrt(double x) {
+        if (x < 0) {
+            throw new IllegalArgumentException("Raiz quadrada de número negativo não é permitida.");
+        }
+        return Math.sqrt(x);
+    }
 }
