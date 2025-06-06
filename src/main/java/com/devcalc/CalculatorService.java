@@ -1,6 +1,6 @@
 package com.devcalc;
 
-// Testando umtima implementacao da badge..
+// Testando
 public class CalculatorService {
 
     public int add(int a, int b) {
